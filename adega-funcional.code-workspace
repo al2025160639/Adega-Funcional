@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.encoding": "utf8",
+    "files.exclude": {
+      "**/build": true,
+      "**/dist-newstyle": true,
+      "**/*.hi": true,
+      "**/*.o": true
+    }
+  }
+}
