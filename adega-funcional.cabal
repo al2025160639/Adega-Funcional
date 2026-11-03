@@ -5,7 +5,7 @@ version: 0.1.0.0
 build-type: Simple
 
 executable adega-funcional
-  main-is: Main.hs
+  main-is: Main2.hs
   hs-source-dirs: app, src
   other-modules:
       Data

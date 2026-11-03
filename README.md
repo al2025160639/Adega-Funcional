@@ -59,7 +59,8 @@ adega-funcional/
 ├── cabal.project
 ├── README.md
 ├── app/
-│   └── Main.hs
+│   ├── Main.hs
+│   └── Main2.hs
 └── src/
     ├── Data.hs
     ├── Domain.hs
@@ -67,9 +68,11 @@ adega-funcional/
 ```
 
 `Model` descreve os tipos; `Domain` contém as regras puras; `Data` fornece seis
-vinhos, três pratos e uma garrafeira de exemplo; `app/Main.hs` apresenta uma
-demonstração curta no terminal. O ficheiro `.code-workspace` abre a pasta inteira
-no VS Code, e o manifesto Cabal identifica os módulos e o executável.
+vinhos, três pratos e uma garrafeira de exemplo; `app/Main2.hs` apresenta a
+demonstração completa no terminal. O Cabal usa esse ficheiro como ponto de
+entrada. `app/Main.hs` permanece no projeto, mas não é usado pelo executável.
+O ficheiro `.code-workspace` abre a pasta inteira no VS Code, e o manifesto
+Cabal identifica os módulos e o executável.
 
 ## Compilar e executar
 
@@ -77,7 +80,7 @@ no VS Code, e o manifesto Cabal identifica os módulos e o executável.
 `adega-funcional`, pode abrir a demonstração no GHCi:
 
 ```text
-ghci -isrc app/Main.hs
+ghci -isrc app/Main2.hs
 ```
 
 No prompt do GHCi:
@@ -109,7 +112,7 @@ Em Linux ou macOS, basta executar `cabal run`.
 Também é possível compilar diretamente com GHC:
 
 ```text
-ghc -isrc app/Main.hs -o adega
+ghc -isrc app/Main2.hs -o adega
 ```
 
 No PowerShell, execute `.\adega.exe`; em Linux ou macOS, execute `./adega`.
