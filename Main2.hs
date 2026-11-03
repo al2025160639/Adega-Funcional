@@ -31,10 +31,6 @@ import System.IO (hSetEncoding, stdout, utf8)
 import Text.Printf (printf)
 
 
--- ============================================================
--- PROGRAMA PRINCIPAL
--- ============================================================
-
 main :: IO ()
 main = do
   hSetEncoding stdout utf8
@@ -121,9 +117,8 @@ main = do
   putStrLn ""
 
 
-  -- ============================================================
   -- CASOS LIMITE
-  -- ============================================================
+  
 
   putStrLn "========================================"
   putStrLn "DEMONSTRAÇÃO DE CASOS LIMITE"
