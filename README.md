@@ -1,129 +1,117 @@
-# Simulador de Adega e Curadoria de Vinhos
+# Simulador de adega e harmonização de vinhos
 
-## Objetivo
+Este projeto demonstra uma adega com alguns vinhos e sugere quais podem
+combinar com diferentes pratos. É um projeto didático: os dados são exemplos
+fixos e as sugestões seguem regras simples, não substituindo a opinião de um
+especialista.
 
-O projeto modela a garrafeira de um colecionador ou de uma adega e sugere
-harmonizações entre vinhos disponíveis e pratos. Esta entrega implementa a
-**Fase 1 — Modelação e núcleo funcional**: os tipos fundamentais, dados de
-demonstração e primeiras operações puras sobre o domínio.
+## O que o programa faz
 
-## Modelo de dados
+Ao ser executado, o programa mostra:
 
-O módulo `Model` define as regiões, categorias e perfis de sabor dos vinhos,
-ingredientes e intensidades dos pratos. Um `Vinho` guarda produtor, colheita,
-região, tipo, álcool, preço por garrafa, castas e uma lista de perfis sensoriais.
-A lista permite representar, por exemplo, um vinho simultaneamente leve, ácido
-e frutado. `Fortificado` contém um subtipo (`Porto`, `Moscatel` ou outro estilo).
+- o valor total dos vinhos da adega;
+- sugestões de vinhos para alguns pratos;
+- os vinhos de uma região escolhida;
+- os vinhos dentro de uma faixa de preço;
+- o resultado de adicionar uma nova garrafa.
 
-Um `Prato` regista o ingrediente principal, gordura numa escala de 1 a 5 e
-intensidade. Cada `ItemGarrafeira` associa um vinho à quantidade e localização;
-`Garrafeira` agrega esses itens numa lista.
+As sugestões consideram o tipo de prato, o perfil do vinho e se há garrafas em
+stock.
 
-As **castas** são as variedades de uva usadas para produzir o vinho, como
-Touriga Nacional, Alvarinho ou Baga. Não são o mesmo que o tipo de vinho:
-`Tinto`, `Branco`, `Rosé` e `Espumante` descrevem o estilo do vinho. A aplicação
-mostra as castas com o rótulo “Castas (variedades de uva)”.
+## O que precisa de instalar
 
-## Núcleo funcional
+É necessário ter o **GHC** e o **Cabal**, ferramentas para compilar e executar
+programas escritos em Haskell. Se o comando `cabal` não for reconhecido no
+terminal, instale o GHC e o Cabal e abra um terminal novo.
 
-O módulo `Domain` mantém as operações puras e usa pattern matching, guards e
-recursão explícita nas travessias das listas:
+## Como executar no Windows
 
-- `adicionarVinho` insere uma entrada no início da garrafeira. Entradas repetidas
-  são permitidas para representar lotes em localizações diferentes.
-- `filtrarPorRegiao` seleciona entradas pela região do vinho.
-- `calcularValorTotal` soma preço por garrafa vezes quantidade.
-- `pesquisarPorGamaPreco` filtra pelo preço unitário, com limites inclusivos; se
-  o mínimo for maior do que o máximo, devolve uma garrafeira vazia.
-- `sugerirHarmonizacao` aplica regras iniciais: carne vermelha favorece tintos
-  encorpados ou tânicos; peixe e marisco favorecem brancos, espumantes ou vinhos
-  leves; pratos gordurosos/intensos pedem acidez ou corpo; sobremesas favorecem
-  vinhos doces ou fortificados. Só são sugeridas entradas com quantidade
-  positiva.
-- `sugerirItensHarmonizacao` devolve os próprios itens da garrafeira, para que a
-  demonstração também possa mostrar a quantidade em stock e a localização de
-  cada vinho sugerido.
+1. Abra a pasta do projeto no VS Code.
+2. Abra o terminal integrado pelo menu **Terminal > Novo Terminal**.
+3. Execute estes comandos no PowerShell:
 
-As regras são uma primeira aproximação didática e determinística, não uma
-avaliação enológica completa. A validação de intervalos e quantidades, o
-tratamento de erros com `Maybe`/`Either`, os pipelines com funções de ordem
-superior e a interação alargada por IO podem ser desenvolvidos nas fases
-seguintes, conforme a progressão prevista no framework da unidade curricular.
-
-## Estrutura
-
-```text
-adega-funcional/
-├── adega-funcional.code-workspace
-├── adega-funcional.cabal
-├── cabal.project
-├── README.md
-├── app/
-│   ├── Main.hs
-│   └── Main2.hs
-└── src/
-    ├── Data.hs
-    ├── Domain.hs
-    └── Model.hs
-```
-
-`Model` descreve os tipos; `Domain` contém as regras puras; `Data` fornece seis
-vinhos, três pratos e uma garrafeira de exemplo; `app/Main2.hs` apresenta a
-demonstração completa no terminal. O Cabal usa esse ficheiro como ponto de
-entrada. `app/Main.hs` permanece no projeto, mas não é usado pelo executável.
-O ficheiro `.code-workspace` abre a pasta inteira no VS Code, e o manifesto
-Cabal identifica os módulos e o executável.
-
-## Compilar e executar
-
-É necessário ter o compilador GHC instalado. A partir da pasta
-`adega-funcional`, pode abrir a demonstração no GHCi:
-
-```text
-ghci -isrc app/Main2.hs
-```
-
-No prompt do GHCi:
-
-```haskell
-main
-:module + Model Domain Data
-calcularValorTotal garrafeiraExemplo
-filtrarPorRegiao Douro garrafeiraExemplo
-pesquisarPorGamaPreco 10 100 garrafeiraExemplo
-sugerirHarmonizacao picanhaGrelhada garrafeiraExemplo
-sugerirItensHarmonizacao picanhaGrelhada garrafeiraExemplo
-```
-
-No terminal integrado do VS Code, execute os comandos seguintes na mesma sessão
-do PowerShell para apresentar corretamente os acentos. Não use o botão genérico
-"Run Code", pois ele pode executar o programa num painel com outra codificação.
-
-No PowerShell do Windows, gere e execute o programa assim:
-
-```text
+```powershell
 chcp 65001
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 cabal run
 ```
 
-Em Linux ou macOS, basta executar `cabal run`.
+Os dois primeiros comandos configuram a exibição de acentos no terminal. O
+comando `cabal run` compila e executa o programa. Se estiver noutra pasta,
+entre primeiro na pasta do projeto:
 
-Também é possível compilar diretamente com GHC:
-
-```text
-ghc -isrc app/Main2.hs -o adega
+```powershell
+cd "C:\Users\emman\Downloads\PF\Adega-Funcional"
 ```
 
-No PowerShell, execute `.\adega.exe`; em Linux ou macOS, execute `./adega`.
+Use o terminal integrado em vez do botão genérico **Run Code**, que pode usar
+uma codificação diferente.
 
-## Dados de demonstração
+## Como executar no Linux ou macOS
 
-O módulo `Data` inclui exemplos inspirados em estilos e regiões portuguesas,
-incluindo Barca Velha (Douro), Alvarinho (Vinho Verde), Porto Vintage,
-espumante da Bairrada, tinto do Alentejo e rosé do Dão. São dados didáticos
-fixos, não uma lista comercial.
+Abra um terminal na pasta do projeto e execute:
 
-O framework da unidade curricular prevê o uso de Git desde o início do projeto;
-o grupo deve manter o histórico de desenvolvimento no repositório que utilizar
-para a entrega.
+```sh
+cabal run
+```
+
+## Usar o GHCi (opcional)
+
+O GHCi permite carregar o programa e experimentar as funções manualmente. Na
+pasta do projeto, execute:
+
+```text
+ghci -isrc app/Main2.hs
+```
+
+Quando aparecer o prompt `ghci>`, pode iniciar a demonstração com:
+
+```haskell
+main
+```
+
+Também pode experimentar funções do projeto:
+
+```haskell
+:module + Model Domain Data
+calcularValorTotal garrafeiraExemplo
+filtrarPorRegiao Douro garrafeiraExemplo
+pesquisarPorGamaPreco 10 100 garrafeiraExemplo
+sugerirHarmonizacao picanhaGrelhada garrafeiraExemplo
+```
+
+Para sair do GHCi, escreva `:quit`.
+
+## Como o projeto está organizado
+
+```text
+app/
+  Main.hs       outro ponto de entrada, não usado pelo Cabal
+  Main2.hs      programa de demonstração executado pelo Cabal
+src/
+  Model.hs      tipos de dados, como vinho, prato e adega
+  Data.hs       vinhos, pratos e adega de exemplo
+  Domain.hs     operações e regras de harmonização
+```
+
+O ficheiro `adega-funcional.cabal` configura o executável. O ponto de entrada
+usado pelo comando `cabal run` é `app/Main2.hs`.
+
+### Alguns termos
+
+- **Casta**: variedade de uva, como Alvarinho ou Baga.
+- **Tipo de vinho**: estilo, como tinto, branco, rosé ou espumante.
+- **Perfil de sabor**: característica do vinho, como leve, ácido ou frutado.
+- **Stock**: quantidade de garrafas disponível na adega.
+
+## Sobre as regras e os dados
+
+As regras são simples e determinísticas. Por exemplo, carnes vermelhas podem
+ser combinadas com tintos encorpados ou tânicos; peixe e marisco podem ser
+combinados com brancos, espumantes ou vinhos leves. As sugestões variam também
+conforme a gordura e a intensidade do prato. Só são recomendados vinhos com
+quantidade em stock superior a zero.
+
+Os dados incluem exemplos inspirados em vinhos e regiões portuguesas. São
+valores fixos para demonstração, não uma lista comercial nem dados atualizados
+de preços.
